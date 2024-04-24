@@ -323,16 +323,19 @@ export class UserController {
     name: 'username',
     type: String,
     description: '用户名',
+    required: false,
   })
   @ApiQuery({
     name: 'nickName',
     type: String,
     description: '昵称',
+    required: false,
   })
   @ApiQuery({
     name: 'email',
     type: String,
     description: '邮箱',
+    required: false,
   })
   @RequireLogin()
   @Get('list')
