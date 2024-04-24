@@ -8,7 +8,7 @@ import {
 import { md5 } from 'src/utils/md5';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { RegisterUserDto } from './dto/RegisterUser.dto';
 import { RedisService } from 'src/redis/redis.service';
 import { Role } from './entities/role.entity';
@@ -17,6 +17,7 @@ import { LoginUserDto } from './dto/LoginUser.dto';
 import { LoginUserVo } from './vo/login-user.vo';
 import { UpdateUserPasswordDto } from './dto/UpdateUserPassword.dto';
 import { UpdateUserDto } from './dto/UpdateUser.dto';
+import { UserListVo } from './vo/user-list.vo';
 
 @Injectable()
 export class UserService {
@@ -232,5 +233,64 @@ export class UserService {
       await this.logger.error(e, UserService);
       return '用户信息修改成功';
     }
+  }
+
+  async updateFreezeStatus(id: number, isFrozen: boolean) {
+    try {
+      const foundUser = await this.userRepository.findOne({
+        where: {
+          id,
+        },
+      });
+      foundUser.isFrozen = isFrozen;
+      await this.userRepository.save(foundUser);
+      return '冻结成功';
+    } catch (e) {
+      this.logger.error(e, UserService);
+      throw new HttpException('冻结失败', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async findUsers(
+    pageNo: number,
+    pageSize: number,
+    username?: string,
+    nickName?: string,
+    email?: string,
+  ) {
+    const skipCount = pageSize * (pageNo - 1);
+
+    const condition: Record<string, any> = {};
+
+    if (username) {
+      condition.username = Like(`%${username}%`);
+    }
+    if (nickName) {
+      condition.nickName = Like(`%${nickName}%`);
+    }
+    if (email) {
+      condition.email = Like(`%${email}%`);
+    }
+
+    const [users, totalCount] = await this.userRepository.findAndCount({
+      select: [
+        'id',
+        'username',
+        'nickName',
+        'email',
+        'phoneNumber',
+        'isFrozen',
+        'avatar',
+        'createTime',
+      ],
+      skip: skipCount,
+      take: pageSize,
+      where: condition,
+    });
+
+    const vo = new UserListVo();
+    vo.users = users;
+    vo.totalCount = totalCount;
+    return vo;
   }
 }

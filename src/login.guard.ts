@@ -50,6 +50,7 @@ export class LoginGuard implements CanActivate {
 
     if (!authorization) {
       throw new UnauthorizedException('用户未登录');
+      // throw new UnLoginException();
     }
 
     try {
