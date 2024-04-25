@@ -1,5 +1,6 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -49,7 +50,7 @@ export class MeetingRoom {
   })
   isBooked: false;
 
-  @UpdateDateColumn({
+  @CreateDateColumn({
     comment: '创建时间',
   })
   creataTime: Date;
