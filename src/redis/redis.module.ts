@@ -1,4 +1,4 @@
-import { Global, Module } from '@nestjs/common';
+import { Global, Logger, Module } from '@nestjs/common';
 import { RedisService } from './redis.service';
 import { createClient } from 'redis';
 import { ConfigService } from '@nestjs/config';
@@ -13,6 +13,7 @@ import { ConfigService } from '@nestjs/config';
         const host = configService.get('redis_server_host');
         const port = configService.get('redis_server_port');
         const database = configService.get('redis_server_db');
+        console.log('redishost: ', host);
         const client = createClient({
           socket: {
             host,
@@ -20,7 +21,12 @@ import { ConfigService } from '@nestjs/config';
           },
           database,
         });
-        await client.connect();
+        try {
+          await client.connect();
+        } catch (e) {
+          Logger.error('Unable to connect to Redis:', e);
+          throw e;
+        }
         return client;
       },
       inject: [ConfigService],

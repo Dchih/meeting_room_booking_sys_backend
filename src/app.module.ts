@@ -17,13 +17,16 @@ import { MeetingRoom } from './meeting_room/entities/meeting_room.entity';
 import { MeetingRoomModule } from './meeting_room/meeting_room.module';
 import { BookingModule } from './booking/booking.module';
 import { Booking } from './booking/entities/booking.entity';
+import { StatisticModule } from './statistic/statistic.module';
+import * as path from 'path';
 
 @Module({
   imports: [
     UserModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: 'src/.env',
+      // envFilePath: 'src/.env',
+      envFilePath: path.resolve(__dirname, '.env'),
     }),
     JwtModule.registerAsync({
       global: true,
@@ -62,6 +65,7 @@ import { Booking } from './booking/entities/booking.entity';
     EmailModule,
     MeetingRoomModule,
     BookingModule,
+    StatisticModule,
   ],
   controllers: [AppController],
   providers: [

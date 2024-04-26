@@ -206,7 +206,6 @@ export class BookingService {
       email = admin.email;
       this.redisService.set(`admin_email`, admin.email, -1);
     }
-
     await this.emailService.sendMail({
       to: email,
       subject: '预定申请催办提醒',
