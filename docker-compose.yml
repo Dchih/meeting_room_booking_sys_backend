@@ -15,7 +15,7 @@ services:
   mysql-container:
     image: mysql
     volumes:
-      - D:\\mysql:/var/lib/mysql
+      - /User/lighthouse/mysql:/var/lib/mysql
     environment:
       MYSQL_DATABASE: meeting_room_booking_sys
       MYSQL_ROOT_PASSWORD: dchih
@@ -26,7 +26,7 @@ services:
     ports:
       - 6379:6379
     volumes:
-      - D:\\dockerdata\redis:/data
+      - /User/lighthouse/redis:/data
     networks:
       - common-network
 networks:
