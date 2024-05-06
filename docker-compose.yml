@@ -3,17 +3,20 @@ services:
   nest-app:
     build:
       context: ./
+      dockerfile: ./Dockerfile
     env_file:
-      - ./src/.env
+      - ./src/prod.env
     depends_on:
       - mysql-container
       - redis-container
     ports:
-      - 3005:3005
+      - 3000:3000
     networks:
       - common-network
   mysql-container:
     image: mysql
+    ports:
+      - '3307:3306'
     volumes:
       - /User/lighthouse/mysql:/var/lib/mysql
     environment:

@@ -13,7 +13,6 @@ import { ConfigService } from '@nestjs/config';
         const host = configService.get('redis_server_host');
         const port = configService.get('redis_server_port');
         const database = configService.get('redis_server_db');
-        console.log('redishost: ', host);
         const client = createClient({
           socket: {
             host,

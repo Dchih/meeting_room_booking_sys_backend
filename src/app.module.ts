@@ -26,7 +26,7 @@ import * as path from 'path';
     ConfigModule.forRoot({
       isGlobal: true,
       // envFilePath: 'src/.env',
-      envFilePath: path.resolve(__dirname, '.env'),
+      envFilePath: path.resolve(__dirname, 'prod.env'),
     }),
     JwtModule.registerAsync({
       global: true,
