@@ -18,7 +18,7 @@ services:
     ports:
       - '3307:3306'
     volumes:
-      - /User/lighthouse/mysql:/var/lib/mysql
+      - /user/lighthouse/mysql:/var/lib/mysql
     environment:
       MYSQL_DATABASE: meeting_room_booking_sys
       MYSQL_ROOT_PASSWORD: dchih
@@ -29,7 +29,7 @@ services:
     ports:
       - 6379:6379
     volumes:
-      - /User/lighthouse/redis:/data
+      - /user/lighthouse/redis:/data
     networks:
       - common-network
 networks:
