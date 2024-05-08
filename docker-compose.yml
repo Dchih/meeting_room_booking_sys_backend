@@ -5,12 +5,12 @@ services:
       context: ./
       dockerfile: ./Dockerfile
     env_file:
-      - ./src/prod.env
+      - ./src/.env
     depends_on:
       - mysql-container
       - redis-container
     ports:
-      - 3000:3000
+      - 3005:3005
     networks:
       - common-network
   mysql-container:
@@ -18,7 +18,7 @@ services:
     ports:
       - '3307:3306'
     volumes:
-      - /user/lighthouse/mysql:/var/lib/mysql
+      - /Users/chih/mysql:/var/lib/mysql
     environment:
       MYSQL_DATABASE: meeting_room_booking_sys
       MYSQL_ROOT_PASSWORD: dchih
@@ -29,7 +29,7 @@ services:
     ports:
       - 6379:6379
     volumes:
-      - /user/lighthouse/redis:/data
+      - /Users/chih/redis:/data
     networks:
       - common-network
 networks:
